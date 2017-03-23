@@ -18,18 +18,17 @@ namespace SquareChase
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        squareTexture = Content.Load<Texture2D>(@"SQUARE");
-        
-
+       
         Random rand = new Random();
         Texture2D squareTexture;
         Rectangle currentSquare;
         int playerScore = 0;
         float timeRemaining = 0.0f;
-        const float TimePerSquare = 0.75f;
+        const float TimePerSquare = 1.0f;
         Color[] colors = new Color[3] { Color.Red, Color.Blue, Color.Green };
-
-        public Game1()
+        int square = 25;
+        
+            public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -60,6 +59,7 @@ namespace SquareChase
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            squareTexture = Content.Load<Texture2D>(@"SQUARE");
             // TODO: use this.Content to load your game content here
         }
 
@@ -88,9 +88,9 @@ namespace SquareChase
             if (timeRemaining == 0.0f)
             {
                 currentSquare = new Rectangle(
-                rand.Next(0, this.Window.ClientBounds.Width - 25),
-                rand.Next(0, this.Window.ClientBounds.Height - 25),
-                25, 25);
+                rand.Next(0, this.Window.ClientBounds.Width - square),
+                rand.Next(0, this.Window.ClientBounds.Height - square),
+                square, square);
                 timeRemaining = TimePerSquare;
             }
             MouseState mouse = Mouse.GetState();
@@ -103,6 +103,20 @@ namespace SquareChase
             timeRemaining = MathHelper.Max(0, timeRemaining -
              (float)gameTime.ElapsedGameTime.TotalSeconds);
             this.Window.Title = "Score : " + playerScore.ToString();
+            {
+                if ((mouse.LeftButton == ButtonState.Pressed) &&
+                      (currentSquare.Contains(mouse.X, mouse.Y)))
+
+                    square = (square)- 1 ;
+                   timeRemaining = TimePerSquare - 0.05f;
+                {
+                
+                }
+               
+
+                   
+            }
+
 
             base.Update(gameTime);
         }
